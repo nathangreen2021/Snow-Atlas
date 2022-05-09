@@ -92,7 +92,7 @@
       },
       "vmName": {
         "type": "string",
-        "defaultValue": "simple-vm",
+        "defaultValue": "snow-vm",
         "metadata": {
           "description": "Name of the virtual machine."
         }
@@ -100,12 +100,12 @@
     },
     "variables": {
       "storageAccountName": "[format('bootdiags{0}', uniqueString(resourceGroup().id))]",
-      "nicName": "myVMNic",
+      "nicName": "SnowVMNic",
       "addressPrefix": "10.0.0.0/16",
       "subnetName": "Subnet",
       "subnetPrefix": "10.0.0.0/24",
-      "virtualNetworkName": "MyVNET",
-      "networkSecurityGroupName": "default-NSG"
+      "virtualNetworkName": "SnowVNET",
+      "networkSecurityGroupName": "Snow-NSG"
     },
     "resources": [
       {
