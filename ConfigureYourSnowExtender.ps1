@@ -1,4 +1,4 @@
-﻿################## Enter the following details to create 
+﻿################## Enter the following details in Powershell to create a Windows Server 2019 with the Snow Extender Installed. ﻿################## 
 
 $resourceGroupName = "SnowSoftware"
 $location = "southeastasia"
