@@ -14,7 +14,7 @@ $Url = 'https://ftp.snowsoftware.com/SetupPackages/CurrentProductVersions/SIM/Se
 
 
 
-#Step 2 
+#Step 2 - Install The Extender
 $Extender = dir $Destination *.exe | Select-Object Name -ExpandProperty name
 $RunDir = """$Destination\$Extender"""
 
@@ -26,7 +26,7 @@ $Runtime = Start-Process -FilePath $RunDir -ArgumentList '/s' -NoNewWindow -wait
 $Runtime.exitcode
 
 
-Step 3 - check service is running
+#Step 3 - check service is running
 
 $ExtenderService = Get-Service | where-object {$_.name -like "SnowExtender*"}
 
