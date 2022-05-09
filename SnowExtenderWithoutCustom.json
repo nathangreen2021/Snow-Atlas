@@ -92,7 +92,7 @@
       },
       "vmName": {
         "type": "string",
-        "defaultValue": "snow-extender",
+        "defaultValue": "snowextender",
         "metadata": {
           "description": "Name of the virtual machine."
         }
