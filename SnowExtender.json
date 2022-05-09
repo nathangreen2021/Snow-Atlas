@@ -16,7 +16,7 @@
         }
       },
       "adminPassword": {
-        "type": "secureString",
+        "type": "securestring",
         "minLength": 12,
         "metadata": {
           "description": "Password for the Virtual Machine."
@@ -31,7 +31,7 @@
       },
       "publicIpName": {
         "type": "string",
-        "defaultValue": "myPublicIP",
+        "defaultValue": "SnowAppPublicIP",
         "metadata": {
           "description": "Name for the Public IP used to access the Virtual Machine."
         }
@@ -92,7 +92,7 @@
       },
       "vmName": {
         "type": "string",
-        "defaultValue": "snow-vm",
+        "defaultValue": "snow-extender",
         "metadata": {
           "description": "Name of the virtual machine."
         }
@@ -120,7 +120,7 @@
       },
       {
         "type": "Microsoft.Network/publicIPAddresses",
-        "apiVersion": "2021-02-01",
+        "apiVersion": "2017-06-01",
         "name": "[parameters('publicIpName')]",
         "location": "[parameters('location')]",
         "sku": {
@@ -135,7 +135,7 @@
       },
       {
         "type": "Microsoft.Network/networkSecurityGroups",
-        "apiVersion": "2021-02-01",
+        "apiVersion": "2017-06-01",
         "name": "[variables('networkSecurityGroupName')]",
         "location": "[parameters('location')]",
         "properties": {
@@ -158,7 +158,7 @@
       },
       {
         "type": "Microsoft.Network/virtualNetworks",
-        "apiVersion": "2021-02-01",
+        "apiVersion": "2017-06-01",
         "name": "[variables('virtualNetworkName')]",
         "location": "[parameters('location')]",
         "properties": {
@@ -185,13 +185,13 @@
       },
       {
         "type": "Microsoft.Network/networkInterfaces",
-        "apiVersion": "2021-02-01",
+        "apiVersion": "2017-06-01",
         "name": "[variables('nicName')]",
         "location": "[parameters('location')]",
         "properties": {
           "ipConfigurations": [
             {
-              "name": "ipconfig1",
+              "name": "Snowipconfig",
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
                 "publicIPAddress": {
@@ -262,6 +262,26 @@
           "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
           "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
         ]
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "SnowCustomScript",
+        "apiVersion": "2015-05-01-preview",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/',parameters('vmName'))]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.4",
+            "settings": {
+                "fileUris": [
+                "https://github.com/nathangreen2021/Snow-Atlas/blob/main/InstallSnowApp.ps1"
+            ],
+            "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File InstallSnowApp.ps1"
+          }
+        }
       }
     ],
     "outputs": {
