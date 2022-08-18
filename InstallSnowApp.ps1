@@ -4,6 +4,20 @@ $Url = "https://github.com/nathangreen2021/Snow-Atlas/raw/main/ExtenderSetup_wit
 $DownloadZipFile = "C:\temp\" + $(Split-Path -Path $Url -Leaf)
 $Destination = "C:\temp\"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+if (Test-Path $Destination) {
+   
+    Write-Host "Folder Already Exists, overwriting content"
+    Copy-Item -Force -Recurse $Destination
+    
+}
+else
+{
+  
+    New-Item $Destination -ItemType Directory
+    Write-Host "Folder Created successfully"
+}
+
 Invoke-WebRequest -Uri $Url -OutFile $DownloadZipFile -Verbose
 $ExtractShell = New-Object -ComObject Shell.Application 
 $ExtractFiles = $ExtractShell.Namespace($DownloadZipFile).Items() 
